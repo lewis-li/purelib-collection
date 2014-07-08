@@ -1,0 +1,9 @@
+{
+    "name": "purelib/collection",
+    "description": "集合类.",
+    "autoload": {
+        "psr-4": {
+            "PureLib\\Collection\\": "src"
+        }
+    }
+}
