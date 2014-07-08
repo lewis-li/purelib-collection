@@ -3,7 +3,7 @@
     "description": "集合类.",
     "require": {
         "purelib/base": "dev-master"
-    }
+    },
     "autoload": {
         "psr-4": {
             "PureLib\\Collection\\": "src"
