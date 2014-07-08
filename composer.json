@@ -1,6 +1,8 @@
 {
     "name": "purelib/collection",
     "description": "集合类.",
+    
+    "minimum-stability": "dev",
     "require": {
         "purelib/base": "dev-master"
     },
