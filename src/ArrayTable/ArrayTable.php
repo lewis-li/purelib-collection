@@ -19,7 +19,7 @@ class ArrayTable {
         }
     }
     public function relate(array $options) {
-        if (! isset ( $options ['name'] ) || ! isset ( $options ['fk'] ) || ! isset ( $options ['data'] )) {
+        if (! isset ( $options ['name'] ) && ! is_null ( $options ['name'] ) || ! isset ( $options ['fk'] ) && ! is_null ( $options ) || ! isset ( $options ['data'] ) && ! is_null ( $options ['data'] )) {
             throw new \Exception ( '缺少必要选项' );
         }
         
@@ -49,16 +49,15 @@ class ArrayTable {
         
         return $data;
     }
-    
     protected function getMasterAndRelationData() {
         if (! isset ( $this->schema ['pk'] )) {
             throw new \Exception ( '必须指定主键' );
         }
         
         $data = $this->data;
-        //$relation_names = array_keys ( $this->relations );
-        $relation_names = array();
-        $emptydata_relation = array();
+        // $relation_names = array_keys ( $this->relations );
+        $relation_names = array ();
+        $emptydata_relation = array ();
         $count = count ( $data );
         $pk = $this->schema ['pk'];
         
@@ -69,44 +68,42 @@ class ArrayTable {
                 $relation_data = $this->relations [$map_name] ['data'] = $relation ['data'] ();
             } else {
                 $relation_data = $relation ['data'];
-            };
-            
-            
+            }
+            ;
             
             if (empty ( $relation_data )) {
-                $emptydata_relation[] = $map_name;
+                $emptydata_relation [] = $map_name;
                 continue;
             }
             
             $fk = $relation ['fk'];
             
-            if (is_array($fk)) { //联合外键
+            if (is_array ( $fk )) { // 联合外键
                 foreach ( $relation_data as $index => $row ) {
-                    $_ = array();
-                    foreach ($fk as $f) {
-                        $_[$f] = $row[$f];
+                    $_ = array ();
+                    foreach ( $fk as $f ) {
+                        $_ [$f] = $row [$f];
                     }
                     $map [$index] = $_;
                 }
-            }
-            
-            else { //单一外键
+            } 
+
+            else { // 单一外键
                 foreach ( $relation_data as $index => $row ) {
                     $map [$index] = $row [$fk];
                 }
             }
             
-            
             $this->relations [$map_name] ['map'] = $map;
-            $relation_names[] = $map_name;
+            $relation_names [] = $map_name;
         }
         
-        if (is_array($pk)) { //联合主键
+        if (is_array ( $pk )) { // 联合主键
             for($i = 0; $i < $count; $i ++) {
                 foreach ( $relation_names as $name ) {
-                    $_ = array();
-                    foreach ($pk as $k) {
-                        $_[$k] = $data[$i][$k];
+                    $_ = array ();
+                    foreach ( $pk as $k ) {
+                        $_ [$k] = $data [$i] [$k];
                     }
                     if (($n = array_search ( $_, $this->relations [$name] ['map'] )) !== false) {
                         $data [$i] [$name] = $this->relations [$name] ['data'] [$n];
@@ -114,14 +111,14 @@ class ArrayTable {
                         $data [$i] [$name] = null;
                     }
                 }
-            
-                foreach ( $emptydata_relation as $name) {
-                    $data[$i][$name] = null;
+                
+                foreach ( $emptydata_relation as $name ) {
+                    $data [$i] [$name] = null;
                 }
             }
-        }
-        
-        else { //普通主键
+        } 
+
+        else { // 普通主键
             for($i = 0; $i < $count; $i ++) {
                 foreach ( $relation_names as $name ) {
                     if (($n = array_search ( $data [$i] [$pk], $this->relations [$name] ['map'] )) !== false) {
@@ -130,9 +127,9 @@ class ArrayTable {
                         $data [$i] [$name] = null;
                     }
                 }
-            
-                foreach ( $emptydata_relation as $name) {
-                    $data[$i][$name] = null;
+                
+                foreach ( $emptydata_relation as $name ) {
+                    $data [$i] [$name] = null;
                 }
             }
         }
