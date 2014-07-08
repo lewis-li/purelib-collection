@@ -2,6 +2,12 @@
 
 namespace PureLib\Collection\ArrayTable;
 
+/**
+ * 为符合条件的二维或多维数组提供常用的方法.
+ * 
+ * @author lewis
+ *
+ */
 class ArrayTable {
     protected $schema = array ();
     protected $data;
