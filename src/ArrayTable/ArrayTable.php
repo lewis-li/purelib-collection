@@ -16,6 +16,11 @@ class ArrayTable {
         $this->data = $data;
         $this->schema = $schema;
     }
+    
+    public static function newInstance($data=null, array $schema = null) {
+        return new self($data, $schema);
+    }
+    
     public function pk($key = null) {
         if ($key === null) {
             return isset ( $this->schema ['pk'] ) ? $this->schema ['pk'] : false;
