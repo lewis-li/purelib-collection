@@ -6,7 +6,8 @@ namespace PureLib\Collection\ArrayTable;
  * 为符合条件的二维或多维数组提供常用的方法.
  * 
  * @author lewis
- *
+ * @todo 优化:读取关联字段时,才触发关联数组的分析和合并
+ * @todo 考虑使用AppendIterator的可行性
  */
 class ArrayTable {
     protected $schema = array ();
