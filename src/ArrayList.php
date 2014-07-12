@@ -54,4 +54,12 @@ class ArrayList extends \ArrayObject {
             $callback ( $k, $v );
         }
     }
+    
+    /**
+     *将数据以数组格式返回
+     * @return array
+     */
+    public function toArray() {
+        return (array) $this;
+    }
 }
